@@ -25,6 +25,13 @@
       <artifactId>transport</artifactId>
       <version>7.6.2</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch -->
+    <dependency>
+      <groupId>org.elasticsearch</groupId>
+      <artifactId>elasticsearch</artifactId>
+      <version>7.6.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>
