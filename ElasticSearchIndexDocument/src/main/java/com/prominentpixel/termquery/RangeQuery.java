@@ -29,8 +29,8 @@ public class RangeQuery {
     public void rangeQuery()
     {
 
-        RangeQueryBuilder rangeQueryBuilder=QueryBuilders.rangeQuery("stud_roll").gte("160040107024");
-        SearchResponse searchResponse=client.prepareSearch("student").setTypes("stud")
+        RangeQueryBuilder rangeQueryBuilder=QueryBuilders.rangeQuery("Enroll").gte("160040107001").lte("160040107010");
+        SearchResponse searchResponse=client.prepareSearch().setIndices("studentdata").setTypes("students")
                 .setQuery(rangeQueryBuilder).setFrom(0).setSize(100).execute().actionGet();
         System.out.println(searchResponse.getHits().getTotalHits());
         System.out.println(searchResponse);
@@ -42,9 +42,9 @@ public class RangeQuery {
         }
     }
     public static void main(String[] args) {
-    RangeQuery rangeQuery=new RangeQuery();
-    rangeQuery.rangeQuery();
-    rangeQuery.connectionClinet();
-    rangeQuery.closeClient();
+        RangeQuery rangeQuery=new RangeQuery();
+        rangeQuery.connectionClinet();
+        rangeQuery.rangeQuery();
+        rangeQuery.closeClient();
     }
 }

@@ -1,23 +1,22 @@
-package com.prominentpixel.termquery;
+package com.prominentpixel.textsearchquery;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import java.net.InetAddress;
 
-public class TermsQuery {
+public class MatchAll {
     TransportClient client;
-    public boolean connectionClinet()
+    public boolean  connectionClint()
     {
-        try
-        {
+        try {
             client=new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(new TransportAddress(InetAddress.getByName("localhost"),9300));
-            return  true;
+        return true;
         }
         catch (Exception exception)
         {
@@ -25,27 +24,24 @@ public class TermsQuery {
             return false;
         }
     }
-    public void termsQuery()
+   public void matchAll()
     {
-
-        TermsQueryBuilder termsQueryBuilder=QueryBuilders.termsQuery("Level","export","begginer");
-        SearchResponse searchResponse=client.prepareSearch("questions").setTypes("quetiondata")
-                .setQuery(termsQueryBuilder).setFrom(0).setSize(100).execute().actionGet();
+        QueryBuilder queryBuilder=QueryBuilders.matchAllQuery();
+        SearchResponse searchResponse=client.prepareSearch().setIndices("studentdata").setTypes("students").setQuery(queryBuilder).execute().actionGet();
         System.out.println(searchResponse.getHits().getTotalHits());
         System.out.println(searchResponse);
 
     }
-
-    public void closeClient(){
-        if(client!=null){
+    public void closeClient()
+    {
+        if (client!=null)
+        {
             client.close();
         }
     }
     public static void main(String[] args) {
-    TermsQuery termsQuery=new TermsQuery();
-    termsQuery.connectionClinet();
-    termsQuery.termsQuery();
-    termsQuery.closeClient();
-
+    MatchAll matchAll=new MatchAll();
+    matchAll.connectionClint();
+    matchAll.matchAll();
     }
 }
