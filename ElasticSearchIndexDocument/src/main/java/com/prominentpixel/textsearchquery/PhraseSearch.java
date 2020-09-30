@@ -24,7 +24,7 @@ public class PhraseSearch {
     }
     public void phraseSearch()
     {
-        MatchPhraseQueryBuilder queryBuilder= QueryBuilders.matchPhraseQuery("rollno","gopal parmar");
+        MatchPhraseQueryBuilder queryBuilder= QueryBuilders.matchPhraseQuery("name","gopal parmar");
         SearchResponse searchResponse=client.prepareSearch().setIndices("studentdata").setTypes("students").setQuery(queryBuilder).execute().actionGet();
         System.out.println("hit count"+searchResponse.getHits().getTotalHits());
         System.out.println(searchResponse);

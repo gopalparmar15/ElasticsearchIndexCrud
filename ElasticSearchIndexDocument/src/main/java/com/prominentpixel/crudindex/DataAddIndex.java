@@ -1,23 +1,29 @@
 package com.prominentpixel.crudindex;
 
+import org.apache.http.HttpHost;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.yaml.snakeyaml.scanner.Constant;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataAddIndex {
+public class DataAddIndex<RestHighLevelClient> {
     TransportClient client=null;
+  //  RestHighLevelClient client=null;
     public boolean connetionClient() {
         try {
             client = new PreBuiltTransportClient(Settings.EMPTY)
                     .addTransportAddress(new TransportAddress(InetAddress.getByName("localhost"), 9300));
             return true;
+        /*     client=new RestHighLevelClient(RestClient.builder(new HttpHost("loaclhost",9300,"http"),
+                    new HttpHost(Constants.HOST,9201,"http")));*/
         }
         catch (Exception exception)
         {

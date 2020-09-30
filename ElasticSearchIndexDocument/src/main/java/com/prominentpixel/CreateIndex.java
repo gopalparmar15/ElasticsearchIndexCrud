@@ -2,12 +2,10 @@ package com.prominentpixel;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
-
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
-
 import java.net.InetAddress;
 import java.util.concurrent.ExecutionException;
 
@@ -35,7 +33,7 @@ public class CreateIndex {
                 .put("index.number_of_replicas", 2));
         CreateIndexResponse response=client.admin().indices().create(request).get();
         System.out.println(request.index());
-       ;
+
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
