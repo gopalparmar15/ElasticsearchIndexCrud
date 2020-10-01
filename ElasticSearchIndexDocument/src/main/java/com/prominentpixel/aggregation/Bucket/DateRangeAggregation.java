@@ -1,4 +1,5 @@
-package com.prominentpixel.aggregation.matrix;
+package com.prominentpixel.aggregation.Bucket;
+
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
@@ -7,12 +8,12 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.metrics.Min;
+import org.elasticsearch.search.aggregations.bucket.range.Range;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import java.net.InetAddress;
 
-public class MinAggregation {
+public class DateRangeAggregation {
     TransportClient client;
     public boolean connectionClient()
     {
@@ -26,25 +27,26 @@ public class MinAggregation {
             return false;
         }
     }
-    public  void minAggregation()
+    public void dateRange()
     {
-        QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
-        AggregationBuilder aggregationBuilder= AggregationBuilders.min("aggs_min").field("age");
-        SearchResponse response=client.prepareSearch().setIndices("employees").setTypes("emp").setQuery(queryBuilder)
-                .addAggregation(aggregationBuilder).execute().actionGet();
-        Min min=response.getAggregations().get("aggs_min");
-        System.out.println(response);
-        System.out.println(min);
+        QueryBuilder queryBuilders= QueryBuilders.matchAllQuery();
+        AggregationBuilder aggregation =
+                AggregationBuilders.dateRange("agg").field("joining").addUnboundedTo("2000").addRange("2000","2010");
+        SearchResponse searchResponse=client.prepareSearch().setIndices("empyear").setTypes("year").setQuery(queryBuilders).addAggregation(aggregation).execute().actionGet();
+        System.out.println(searchResponse);
+       Range range=searchResponse.getAggregations().get("agg");
+        System.out.println(range);
     }
     public void closeClient(){
         if(client!=null){
             client.close();
         }
     }
+
     public static void main(String[] args) {
-    MinAggregation minAggregation=new MinAggregation();
-    minAggregation.connectionClient();
-    minAggregation.minAggregation();
-    minAggregation.closeClient();
+        DateRangeAggregation dateRangeAggregation=new DateRangeAggregation();
+        dateRangeAggregation.connectionClient();
+        dateRangeAggregation.dateRange();
+        dateRangeAggregation.closeClient();
     }
 }
